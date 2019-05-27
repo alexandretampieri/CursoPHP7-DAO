@@ -46,7 +46,7 @@ if (isset($_GET) && count($_GET) > 0) {
 
 	else {
 
-		echo "Identificador do usuário " . $id . " não cadastrado!";
+		echo "Identificador do usuário $id não cadastrado!";
 
 	}
 

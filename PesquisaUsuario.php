@@ -49,7 +49,7 @@ function pesquisaUsuario($id) {
 
 	else {
 
-		echo "Identificador do usuário " . $id . " não cadastrado!";
+		echo "Identificador do usuário $id não cadastrado!";
 
 	}
 
