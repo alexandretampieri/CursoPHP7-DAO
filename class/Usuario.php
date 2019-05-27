@@ -156,13 +156,13 @@ class Usuario {
 
     public function alterarUsuario($login, $senha) {
 
-    	$this->setDesLogin = $login;
+    	$this->setDesLogin($login);
 
-    	$this->setDesSenha = $senha;
-    	
+    	$this->setDesSenha($senha);
+
     	$comandoSQL = new SQL();
 
-    	$comandoSQL->select("UPDATE tb_usuarios SET deslogin = :LOGIN, dessenha = :SENHA WHERE idusuario = :ID);", array(
+    	$comandoSQL->query("UPDATE tb_usuarios SET deslogin = :LOGIN, dessenha = :SENHA WHERE idusuario = :ID ;", array(
     		":LOGIN"=>$this->getDesLogin(),
     		":SENHA"=>$this->getDesSenha(),
     		":ID"=>$this->getIdUsuario()
