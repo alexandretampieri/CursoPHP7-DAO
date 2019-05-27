@@ -21,18 +21,6 @@
 
 require_once("config.php");
 
-/*
-
-$comandoSQL = new SQL();
-
-$usuarios = $comandoSQL->select("SELECT * from tb_usuarios order by deslogin");
-
-echo json_encode($usuarios);
-
-*/
-
-//Carrega um usuário pelo idusuario
-
 if (isset($_GET) && count($_GET) > 0) {
 
     $login = $_GET["deslogin"];
