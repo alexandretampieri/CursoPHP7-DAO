@@ -157,17 +157,36 @@ class Usuario {
     public function alterarUsuario($login, $senha) {
 
     	$this->setDesLogin($login);
-
+    	
     	$this->setDesSenha($senha);
 
     	$comandoSQL = new SQL();
-
+    	
     	$comandoSQL->query("UPDATE tb_usuarios SET deslogin = :LOGIN, dessenha = :SENHA WHERE idusuario = :ID ;", array(
     		":LOGIN"=>$this->getDesLogin(),
     		":SENHA"=>$this->getDesSenha(),
     		":ID"=>$this->getIdUsuario()
+    	));
+
+    }
+
+
+    public function excluirUsuario() {
+
+    	$comandoSQL = new SQL();
+
+    	$comandoSQL->query("DELETE FROM tb_usuarios WHERE idusuario = :ID ;", array(
+    		":ID"=>$this->getIdUsuario()
 
     	));
+
+    	$this->setIdUsuario(0);
+
+    	$this->setDesLogin("");
+
+    	$this->setDesSenha("");
+
+    	$this->setDtCadastro(new DateTime());
 
     }
 
