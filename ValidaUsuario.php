@@ -1,11 +1,18 @@
 <form>
 
-<label>Identificador do usuário:</label>
-<input type="number" name="idUsuario" min="1" max="10" value="1">
+<label>Usuário:</label> 
+<input type="text" name="deslogin" size="40" maxlength="20">
+
+<br/> <br/>
+
+<label>Senha:</label> 
+<input type="text" name="dessenha" size="20" maxlength="10">
+
+<br/> <br/>
 
 <input type="submit" name="Ok" value="Confirmar">
 
-<br> <br>
+<br/> <br/>
 
 </form>
 
@@ -28,28 +35,15 @@ echo json_encode($usuarios);
 
 if (isset($_GET) && count($_GET) > 0) {
 
-    $id = $_GET["idUsuario"];
+    $login = $_GET["deslogin"];
 
-    pesquisaUsuario($id);
-
-}
-
-
-function pesquisaUsuario($id) {
+    $senha = $_GET["dessenha"];
 
 	$root = new Usuario();
 
-	if ($root->carregaPeloId($id)) {
+	$root->validaUsuario($login, $senha);
 
-		echo $root;
-
-	}
-
-	else {
-
-		echo "Identificador do usuário " . $id . " não cadastrado!";
-
-	}
+	echo $root;
 
 }
 

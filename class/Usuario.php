@@ -67,11 +67,45 @@ class Usuario {
 	}
 
 
-	public function carregaPeloId($id) {
+	public function carregaPeloId($id):bool {
 
 		$comandoSQL = new SQL();
 
-		$resultado = $comandoSQL->select("SELECT * FROM tb_usuarios WHERE idusuario = :ID", array(":ID"=>$id));
+		$resultado = $comandoSQL->select("SELECT * FROM tb_usuarios WHERE idusuario = :ID;", array(":ID"=>$id));
+
+		if (count($resultado) > 0) {
+
+			$coluna = $resultado[0];
+
+			$this->setIdUsuario($coluna["idusuario"]);
+
+			$this->setDesLogin($coluna["deslogin"]);
+
+			$this->setDesSenha($coluna["dessenha"]);
+
+			$this->setDtCadastro(new DateTime($coluna["dtcadastro"]));
+
+			return true;
+
+		}
+
+		else {
+
+			return false;
+		}
+
+	}
+
+
+
+	public function validaUsuario($login, $senha) {
+
+		$comandoSQL = new SQL();
+
+		$resultado = $comandoSQL->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN AND dessenha = :SENHA;", array(
+			":LOGIN"=>$login,
+			":SENHA"=>$senha
+		));
 
 		if (count($resultado) > 0) {
 
@@ -87,14 +121,36 @@ class Usuario {
 
 		}
 
+		else {
+
+			throw new Exception("Login e/ou senha inválidos.");
+		}
+
 	}
+
+	public static function obtemLista() {
+
+		$comandoSQL = new SQL();
+
+		return $comandoSQL->select("SELECT * FROM tb_usuarios ORDER BY deslogin;");
+
+    }
+
+
+	public static function pesquisaLike($chave) {
+
+		$comandoSQL = new SQL();
+
+		return $comandoSQL->select("SELECT * FROM tb_usuarios WHERE deslogin LIKE :ARG ORDER BY deslogin;", array(
+			":ARG"=>"%".$chave."%"
+		));
+
+    }
 
 
 	public function __toString() {
 
-var_dump($this->getDtCadastro());
-
-		return json_encode(array(
+		$json = json_encode(array(
 
 			"Id Usuario"=>$this->getIdUsuario(),
 
@@ -102,9 +158,13 @@ var_dump($this->getDtCadastro());
 
 			"Senha"=>$this->getDesSenha(),
 
-			"Data Cadastro"=>$this->getDtCadastro()->format("d-m-Y H:i:s")
+			"DataCadastro"=>$this->getDtCadastro()->format("d/m/Y, H:i:s"),
+
+			JSON_UNESCAPED_UNICODE
 
 		));
+
+		return $json;
 
 	}
 
